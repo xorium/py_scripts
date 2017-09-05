@@ -6,3 +6,8 @@ Example: `./custom_kill.py ytho` - kill all processes which name contain "ytho" 
 ## ll_translate.py
 Eng -> Ru translater using Lingualeo API. Translate selected text.
 Requirenments: `sudo apt-get install pygtk`
+
+## redshift.py
+Redshift autostarter, use `python redshift.py --help` for options.
+Example: `python redshift.py --htemp=6500 --ltemp=4000 --timeout=1 --start=19:00 --end=07:00 &`
+Requirenments: `sudo apt-get install redshift`
