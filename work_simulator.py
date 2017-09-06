@@ -53,8 +53,8 @@ def get_boxed_string(s):
     padding = 5
     slen = padding * 2 + len(s) - 2
     s = u'║' + ('{:^' + str(slen) + '}').format(s) + u'║'
-    up = u'╔' + "═" * slen + '╗\n'
-    down = '╚' + "═" * slen + u'╝\n'
+    up = u'╔' + "═" * slen + u'╗\n'
+    down = u'╚' + "═" * slen + u'╝\n'
     s = up + s + "\n" + down
     return s
 
