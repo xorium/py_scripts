@@ -13,6 +13,6 @@ Example: `python redshift.py --htemp=6500 --ltemp=4000 --timeout=1 --start=19:00
 Requirenments: `sudo apt-get install redshift`
 
 ## work_simulator.py
-Funny script which can create visibility of work.
-Example: `python work_simulator.py --help`
+Funny script which can create visibility of work.  
+Example: `python work_simulator.py --help`  
 Requirenments: `pip install colorama`
