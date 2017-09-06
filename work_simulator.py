@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 """
@@ -6,7 +6,7 @@ Requirements: colorama
 $> pip install colorama
 """
 
-import os, sys, time, random, threading, argparse
+import os, sys, time, random, threading, argparse, platform
 from colorama import Fore
 
 py_ver = sys.version_info.major
@@ -37,6 +37,19 @@ a = random.randint(10**6, 10**10)
 c = random.randint(10**6, 10**10)
 m = random.randint(10**6, 10**10)
 last_random = random.randint(10**9, 10**12)
+
+def update_colors():
+    global colors
+    #high intensty colors
+    shell = os.getenv('SHELL')
+    if shell.find("/bin/bash") >= 0 or shell.find("/bin/zsh") >= 0:
+        #more info: https://gist.github.com/leesei/136b522eb9bb96ba45bd
+        colors['black'] = '\\033[38;5;8m'
+        colors['red'] = '\\033[38;5;9m'
+        colors['green'] = '\\033[38;5;10m'
+        colors['yellow'] = '\\033[38;5;11m'
+        colors['blue'] = '\\033[38;5;12m'
+        colors['white'] = '\\033[38;5;15m'
 
 def get_pseudo_random(from_num = 0, to_num = 0):
     global last_random, a, c, m
@@ -199,7 +212,7 @@ def iter_rows(rows):
     return rows
 
 def print_rows(rows, insert="", ascii_mode = False):
-    global columns_num, words, words_bytes, color
+    global columns_num, words, words_bytes, color, stdscr
     output = ""
     for row in rows:
         output += row + "\n"
@@ -211,16 +224,22 @@ def print_rows(rows, insert="", ascii_mode = False):
         else:
             output = insert_into_center(get_boxed_string(insert), output)
     #coloring some words
-    for w in words:
-        output = output.replace(w, color + w + Fore.RESET)
-        output = output.replace(words_bytes[w], color + words_bytes[w] + Fore.RESET)
+    bold_tag = "\033[1m"
+    end_bold = "\033[21m"
+    if platform.system() == "Linux":
+        for w in words:
+            output = output.replace(w, bold_tag + color + w + Fore.RESET + end_bold)
+            output = output.replace(words_bytes[w], bold_tag + color + words_bytes[w] + Fore.RESET + end_bold)
+        os.system("clear")
+    elif platform.system() == "Windows":
+        os.system("clr")
     print(output)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(usage= __file__ + " --speed=10 --message='Hello, world' --msg_time=3 --msg_timeout=5 --box_type=ascii --words=some,words --color=blue --words_prob=90")
+    parser = argparse.ArgumentParser(usage= __file__ + " --speed=5 --message='Hello, world' --msg_time=3 --msg_timeout=5 --box_type=ascii --words=some,words --color=blue --words_prob=90")
     parser.add_argument("--width", help="Terminal width in characters count (auto set)")
     parser.add_argument("--height", help="Terminal heghti in rows count (auto set)")
-    parser.add_argument("--speed", help="speed of running lines (in iterations per second). Default: 10")
+    parser.add_argument("--speed", help="speed of running lines (in iterations per second). Default: 5")
     parser.add_argument("--message", help="Message text to show ('no' if message doesn't need to appear)")
     parser.add_argument("--msg_time", help="Time of showing message in seconds (5 by default)")
     parser.add_argument("--msg_timeout", help="Timeout of showing message in seconds (10 by dafault)")
@@ -245,10 +264,10 @@ if __name__ == "__main__":
     col2_size = int((columns_num - col1_size - (pad1_len + pad2_len)) / 4) * 3 # 75% of width
     col3_size = int((columns_num - col1_size - (pad1_len + pad2_len)) / 4)     # 25% of width
     
-    speed = 10
+    speed = 5
     timeout = 1.0 / speed
     box_type = "unicode"
-    message = "0DAY HAS BEEN FOUND!"
+    message = "ACCESS DENIED"
     
     show_timeout = 10
     text_showing_time = 5 #must be greater than timeout
@@ -287,6 +306,7 @@ if __name__ == "__main__":
     for w in words:
         words_bytes[w] = get_word_bytes(w)
     
+    update_colors()
     init_rows()
     threading.Thread(target=start_filling).start()    
 
