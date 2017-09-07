@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     if getpass.getuser() != "root":
         print("Script must be run by root user.")
-        #sys.exit()
+        sys.exit()
 
     if args.start:
         start_hour = int(args.start.split(":")[0])
