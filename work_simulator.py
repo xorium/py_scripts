@@ -42,7 +42,7 @@ def update_colors():
     global colors
     #high intensty colors
     shell = os.getenv('SHELL')
-    if shell.find("/bin/bash") >= 0 or shell.find("/bin/zsh") >= 0:
+    if shell and (shell.find("/bin/bash") >= 0 or shell.find("/bin/zsh") >= 0):
         #more info: https://gist.github.com/leesei/136b522eb9bb96ba45bd
         colors['black'] = '\\033[38;5;8m'
         colors['red'] = '\\033[38;5;9m'
