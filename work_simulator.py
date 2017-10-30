@@ -6,7 +6,13 @@ Requirements: colorama
 $> pip install colorama
 """
 
-import os, sys, time, random, threading, argparse, platform
+import os
+import sys
+import time
+import random
+import threading
+import argparse
+import platform
 from colorama import Fore
 
 py_ver = sys.version_info.major
@@ -148,7 +154,8 @@ def get_printable_string(s, delimeter=" "):
 
 def get_random_hex_byte():
     byte = "%X" % random.randint(0, 255)
-    if len(byte) < 2: byte = "0" + byte
+    if len(byte) < 2:
+        byte = "0" + byte
     return byte
 
 def get_new_row():
